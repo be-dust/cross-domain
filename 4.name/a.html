@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    a和b是同域的 http://localhost:3000 c是独立的 http://localhost:4000
+    a获取c的数据: 1. a先引用c 2. c把值放到window.name 3. 把a引用的地址改到b
+    原理是name不会消失
+    <iframe
+      src="http://localhost:4000/c.html"
+      frameborder="1"
+      onload="load()"
+      id="iframe"
+    ></iframe>
+    <script>
+      let first = true;
+      function load() {
+        // first 时a引用的是c
+        if (first) {
+          let iframe = document.getElementById('iframe');
+          iframe.src = 'http://localhost:3000/b.html';
+          first = false;
+        } else {
+          // 非 first时a引用的是b
+          console.log(iframe.contentWindow.name);
+        }
+      }
+    </script>
+  </body>
+</html>
